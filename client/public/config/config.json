@@ -1,19 +1,19 @@
 {
-  "CONTRACT_ADDRESS": "0x18c5d5e778FCD9db00B4433697BD1FD01F3C91F7",
-  "SCAN_LINK": "https://polygonscan.com/address/0x18c5d5e778FCD9db00B4433697BD1FD01F3C91F7",
+  "CONTRACT_ADDRESS": "0x10c4555a15527806eb54b243f115e31f7aada466",
+  "SCAN_LINK": "https://polygonscan.com/address/0x10c4555a15527806eb54b243f115e31f7aada466",
   "NETWORK": {
     "NAME": "Polygon",
     "SYMBOL": "Matic",
     "ID": 137
   },
-  "NFT_NAME": "Dino Planet",
-  "SYMBOL": "DP",
-  "MAX_SUPPLY": 1001,
-  "WEI_COST": 1000000000000000000,
+  "NFT_NAME": "GNFT_TEST",
+  "SYMBOL": "GNFT",
+  "MAX_SUPPLY": 1000,
+  "WEI_COST": 0,
   "DISPLAY_COST": 1,
   "MAX_MINT": 5,
   "GAS_LIMIT": 285000,
   "MARKETPLACE": "Opeansea",
-  "MARKETPLACE_LINK": "https://opensea.io/collection/dino-planet-7518p",
+  "MARKETPLACE_LINK": "https://opensea.io/collection/GNFT",
   "SHOW_BACKGROUND": false
 }
