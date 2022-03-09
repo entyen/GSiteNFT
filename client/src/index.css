@@ -5,8 +5,23 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #000 !important;
-  background-image: url("../public/bkgVideo.mp4");
+  /* background-color: #000 !important;
+  background-image: url("../public/bkgVideo.mp4"); */
+  color: #fff !important;
+}
+
+.image-home {
+  width: 474px;
+  height: 474px;
+}
+
+.button {
+  margin-bottom: 14px;
+}
+
+.cont-text {
+  text-align: center;
+  margin-bottom: 14px;
 }
 
 #myVideo {
@@ -21,12 +36,87 @@ body {
   z-index: -1;
 }
 
+#videoGuide {
+  width: 640px;
+  height: 360px;
+  margin-bottom: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 14px;
+  margin-bottom: 30px;
+}
+
+.header > h3 {
+  padding-left: 10px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 80pt;
+  font-style: italic;
+  font-weight: bold;
+  color: #fff;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.images-content-center {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+}
+
+.load {
+  width: 256px;
+  height: 256px;
+  object-fit: cover;
+  object-position: 50% 50%;
+  position: absolute;
+  margin: 0px 0px 0 calc((100% - 980px) * 0.5);
+  margin-top: 300px;
+}
+
+.images-content-center > .load-left {
+  left: 18px;
+  justify-self: start;
+  align-self: start;
+}
+
+.images-content-center > .load-right {
+  left: 674px;
+  justify-self: start;
+  align-self: start;
+}
+
+.card {
+  background-color: rgba(0, 0, 0, 0) !important;
+  border: none !important;
+}
+
+.card-group {
+  align-items: flex-start;
+  margin-bottom: 30px;
+}
+
+.card-text:last-child {
+    margin-bottom: 0;
+    background-color: white;
+    text-align: center;
+    padding: 10px;
+}
+
 ::-webkit-scrollbar-track {
   background: #fff;
 }
 ::-webkit-scrollbar {
   width: 10px;
-} 
+}
 ::-webkit-scrollbar-thumb {
   background: #888;
 }
@@ -62,10 +152,10 @@ code {
 
 .footer {
   height: 3rem;
-  padding-top: 10px;
+  margin-top: 200px;
+  margin-bottom: 30px;
   text-align: center;
-  color: #9b9d9e;
-  background-color: #212529;
+  color: #00FF35;
 }
 
 .footer > p:hover {
