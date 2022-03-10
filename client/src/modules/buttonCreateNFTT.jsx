@@ -3,18 +3,50 @@ import { useDispatch, useSelector } from "react-redux";
 import { connect } from "./redux/blockchain/blockchainActions";
 import { fetchData } from "./redux/data/dataActions";
 import { useMetaMask, MetaMaskProvider } from "metamask-react";
+import { Row, Col, Toast, ToastContainer, Button } from "react-bootstrap";
 import * as s from "./styles/globalStyles";
 import styled from "styled-components";
 
+function Example(msg) {
+  const [show, setShow] = useState(true);
+  const toggleShow = () => setShow(!show);
+
+  return (
+    <Row>
+      <Col xs={6}>
+        <ToastContainer position="top-start" className="p-3 position-fixed">
+          <Toast
+            onClose={toggleShow}
+            show={show}
+            bg="dark"
+            delay={4000}
+            autohide
+          >
+            <Toast.Header>
+              <img
+                src="favicon.ico"
+                className="rounded me-2 alert-logo"
+                alt=""
+              />
+              <strong className="me-auto">GEXP</strong>
+            </Toast.Header>
+            <Toast.Body>{msg.children}</Toast.Body>
+          </Toast>
+        </ToastContainer>
+      </Col>
+    </Row>
+  );
+}
+
 export const StyledButton = styled.button`
-  padding: 10px;
+  width: 302px;
+  height: 71px;
   border-radius: 50px;
   border: none;
   background-color: var(--secondary);
-  padding: 10px;
+  font-size: 30px;
   font-weight: bold;
   color: var(--secondary-text);
-  width: 100px;
   cursor: pointer;
   box-shadow: 0px 6px 0px -2px rgba(250, 250, 250, 0.3);
   -webkit-box-shadow: 0px 6px 0px -2px rgba(250, 250, 250, 0.3);
@@ -23,6 +55,9 @@ export const StyledButton = styled.button`
     box-shadow: none;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
+  }
+  :hover {
+    background: linear-gradient(307deg, #5f5bcd 24%, #ff5700 100%);
   }
 `;
 
@@ -97,7 +132,7 @@ function App() {
   const blockchain = useSelector((state) => state.blockchain);
   const data = useSelector((state) => state.data);
   const [claimingNft, setClaimingNft] = useState(false);
-  const [feedback, setFeedback] = useState(`Click buy to mint your NFT.`);
+  const [feedback, setFeedback] = useState(`Click MING GIFT to mint your NFT.`);
   const [mintAmount, setMintAmount] = useState(1);
   const [CONFIG, SET_CONFIG] = useState({
     CONTRACT_ADDRESS: "",
@@ -179,14 +214,11 @@ function App() {
   return (
     <s.Container
       flex={2}
-      jc={"center"}
-      ai={"center"}
       style={{
         backgroundColor: "var(--accent)",
         padding: 24,
         borderRadius: 24,
-        border: "4px dashed var(--secondary)",
-        boxShadow: "0px 5px 11px 2px rgba(0,0,0,0.7)",
+        border: "0px dashed var(--secondary)",
       }}
     >
       {Number(data.totalSupply) >= CONFIG.MAX_SUPPLY ? (
@@ -210,15 +242,6 @@ function App() {
         <>
           {blockchain.account === "" || blockchain.smartContract === null ? (
             <s.Container ai={"center"} jc={"center"}>
-              <s.TextDescription
-                style={{
-                  textAlign: "center",
-                  color: "var(--accent-text)",
-                }}
-              >
-                Connect to the {CONFIG.NETWORK.NAME} network
-              </s.TextDescription>
-              <s.SpacerSmall />
               <StyledButton
                 onClick={(e) => {
                   e.preventDefault();
@@ -226,20 +249,10 @@ function App() {
                   getData();
                 }}
               >
-                CONNECT
+                GET NFT GIFT
               </StyledButton>
               {blockchain.errorMsg !== "" ? (
-                <>
-                  <s.SpacerSmall />
-                  <s.TextDescription
-                    style={{
-                      textAlign: "center",
-                      color: "var(--accent-text)",
-                    }}
-                  >
-                    {blockchain.errorMsg}
-                  </s.TextDescription>
-                </>
+                <Example>{blockchain.errorMsg}</Example>
               ) : null}
             </s.Container>
           ) : (
@@ -261,7 +274,7 @@ function App() {
                     getData();
                   }}
                 >
-                  {claimingNft ? "BUSY" : "BUY GIFT"}
+                  {claimingNft ? "BUSY" : "MINT GIFT"}
                 </StyledButton>
               </s.Container>
             </>

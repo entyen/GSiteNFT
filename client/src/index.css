@@ -15,6 +15,11 @@ body {
   height: 474px;
 }
 
+.alert-logo {
+  width: 14px;
+  height: 14px;
+}
+
 .button {
   margin-bottom: 14px;
 }
@@ -25,8 +30,8 @@ body {
 }
 
 #myVideo {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   position: fixed;
   left: 0;
@@ -78,17 +83,16 @@ body {
   object-fit: cover;
   object-position: 50% 50%;
   position: absolute;
-  margin: 0px 0px 0 calc((100% - 980px) * 0.5);
-  margin-top: 300px;
+  margin: -170px 0px 0 calc((100% - 980px) * 0.5);
 }
 
-.images-content-center > .load-left {
+.images-content-center > a > .load-left {
   left: 18px;
   justify-self: start;
   align-self: start;
 }
 
-.images-content-center > .load-right {
+.images-content-center > a > .load-right {
   left: 674px;
   justify-self: start;
   align-self: start;

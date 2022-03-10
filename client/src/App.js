@@ -20,14 +20,18 @@ function App() {
         </div>
         <div className="images-content-center">
           <Image className="image-home" src="home_hero.png" />
-          <Image className="load-left load" src="a256x256.png" />
-          <Image className="load-right load" src="g256x256.png" />
+          <a href="https://apps.apple.com/app/apple-store/id1288339409" target="_blank">
+            <Image className="load-left load" src="a256x256.png" />
+          </a>
+          <a href="https://play.google.com/store/apps/details?id=com.wallet.crypto.trustapp&gl=US" target="_blank">
+            <Image className="load-right load" src="g256x256.png" />
+          </a>
         </div>
         <div className="video-block">
           <div className="cont-text">
             <h4>VIDEO GUIDE</h4>
           </div>
-          <video id="videoGuide">
+          <video id="videoGuide" controls>
             <source src="instruction.mp4" type="video/mp4" />
           </video>
         </div>
