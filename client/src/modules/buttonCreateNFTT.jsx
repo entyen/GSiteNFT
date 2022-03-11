@@ -2,12 +2,18 @@ import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { connect } from "./redux/blockchain/blockchainActions";
 import { fetchData } from "./redux/data/dataActions";
-import { useMetaMask, MetaMaskProvider } from "metamask-react";
-import { Row, Col, Toast, ToastContainer, Button } from "react-bootstrap";
+import {
+  Row,
+  Col,
+  Toast,
+  ToastContainer,
+  Button,
+  Modal,
+} from "react-bootstrap";
 import * as s from "./styles/globalStyles";
 import styled from "styled-components";
 
-function Example(msg) {
+function AlertCustom(msg) {
   const [show, setShow] = useState(true);
   const toggleShow = () => setShow(!show);
 
@@ -45,6 +51,33 @@ export const StyledButton = styled.button`
   border: none;
   background-color: var(--secondary);
   font-size: 30px;
+  font-weight: bold;
+  color: var(--secondary-text);
+  cursor: pointer;
+  box-shadow: 0px 6px 0px -2px rgba(250, 250, 250, 0.3);
+  -webkit-box-shadow: 0px 6px 0px -2px rgba(250, 250, 250, 0.3);
+  -moz-box-shadow: 0px 6px 0px -2px rgba(250, 250, 250, 0.3);
+  :active {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+  }
+  :hover {
+    background: linear-gradient(307deg, #5f5bcd 24%, #ff5700 100%);
+  }
+`;
+
+export const StyledButtonWeb3 = styled.button`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 200px;
+  border-radius: 50px;
+  border: none;
+  background-color: #1a1a1a;
+  font-size: 23px;
   font-weight: bold;
   color: var(--secondary-text);
   cursor: pointer;
@@ -211,6 +244,11 @@ function App() {
     getData();
   }, [blockchain.account]);
 
+  const [showMod, setShowMod] = useState(false);
+
+  const handleClose = () => setShowMod(false);
+  const handleShow = () => setShowMod(true);
+
   return (
     <s.Container
       flex={2}
@@ -221,6 +259,42 @@ function App() {
         border: "0px dashed var(--secondary)",
       }}
     >
+      <Modal show={showMod} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Select Wallet</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <StyledButtonWeb3
+            onClick={(e) => {
+              e.preventDefault();
+              dispatch(connect());
+              getData();
+              handleClose();
+            }}
+          >
+            <img
+              src="metamask.webp"
+              className="rounded me-2"
+              alt=""
+            />
+            <strong>MetaMask</strong>
+          </StyledButtonWeb3>
+          <s.SpacerSmall />
+          <StyledButtonWeb3
+            onClick={(e) => {
+              e.preventDefault();
+              handleClose();
+            }}
+          >
+            <img
+              src="walletconnect-logo.svg"
+              className="rounded me-2"
+              alt=""
+            />
+            <strong>WalletConnect</strong>
+          </StyledButtonWeb3>
+        </Modal.Body>
+      </Modal>
       {Number(data.totalSupply) >= CONFIG.MAX_SUPPLY ? (
         <>
           <s.TextTitle
@@ -243,16 +317,17 @@ function App() {
           {blockchain.account === "" || blockchain.smartContract === null ? (
             <s.Container ai={"center"} jc={"center"}>
               <StyledButton
-                onClick={(e) => {
-                  e.preventDefault();
-                  dispatch(connect());
-                  getData();
-                }}
+                onClick={handleShow}
+                // onClick={(e) => {
+                //   e.preventDefault();
+                //   dispatch(connect());
+                //   getData();
+                // }}
               >
                 GET NFT GIFT
               </StyledButton>
               {blockchain.errorMsg !== "" ? (
-                <Example>{blockchain.errorMsg}</Example>
+                <AlertCustom>{blockchain.errorMsg}</AlertCustom>
               ) : null}
             </s.Container>
           ) : (
