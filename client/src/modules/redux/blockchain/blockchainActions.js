@@ -3,6 +3,10 @@ import Web3EthContract from "web3-eth-contract";
 import Web3 from "web3";
 // log
 import { fetchData } from "../data/dataActions";
+// wallet connect
+import WalletConnectProvider from "@walletconnect/web3-provider";
+import WalletConnect from "@walletconnect/client";
+import QRCodeModal from "@walletconnect/qrcode-modal";
 
 const connectRequest = () => {
   return {
@@ -31,7 +35,90 @@ const updateAccountRequest = (payload) => {
   };
 };
 
-export const connect = () => {
+export const connectWc = () => {
+  return async (dispatch) => {
+    dispatch(connectRequest());
+    const abiResponse = await fetch("/config/abi.json", {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    const abi = await abiResponse.json();
+    const configResponse = await fetch("/config/config.json", {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    const CONFIG = await configResponse.json();
+    const provider = new WalletConnectProvider({
+      rpc: {
+        137: "https://polygon-rpc.com/",
+      },
+    });
+    await provider.enable();
+    Web3EthContract.setProvider(provider);
+    const connector = new WalletConnect({
+      bridge: "https://bridge.walletconnect.org", // Required
+      qrcodeModal: QRCodeModal,
+    });
+    let web3 = new Web3(provider);
+    try {
+      connector
+        .connect()
+        .then((res) => {
+          const accounts = res.accounts;
+          const chainId = res.chainId;
+          if (chainId == CONFIG.NETWORK.ID) {
+            const SmartContractObj = new Web3EthContract(
+              abi,
+              CONFIG.CONTRACT_ADDRESS
+            );
+            dispatch(
+              connectSuccess({
+                account: accounts[0],
+                smartContract: SmartContractObj,
+                web3: web3,
+              })
+            );
+          } else {
+            dispatch(
+              connectFailed(`Change network to ${CONFIG.NETWORK.NAME}.`)
+            );
+          }
+        })
+        .catch((e) => {
+          dispatch(connectFailed(e.message));
+        });
+
+      connector.on("session_update", (error, payload) => {
+        if (error) {
+          throw error;
+        }
+
+        // Get updated accounts and chainId
+        const { accounts, chainId } = payload.params[0];
+        if (chainId !== CONFIG.NETWORK.ID) {
+          window.location.reload();
+        }
+      });
+
+      connector.on("disconnect", (error, payload) => {
+        if (error) {
+          throw error;
+        }
+
+        // Delete connector
+        dispatch(connectFailed("Disconnect."));
+      });
+    } catch (err) {
+      dispatch(connectFailed("Something went wrong."));
+    }
+  };
+};
+
+export const connectMeta = () => {
   return async (dispatch) => {
     dispatch(connectRequest());
     const abiResponse = await fetch("/config/abi.json", {

@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { connect } from "./redux/blockchain/blockchainActions";
+import { connectMeta, connectWc } from "./redux/blockchain/blockchainActions";
 import { fetchData } from "./redux/data/dataActions";
 import {
   Row,
@@ -11,7 +11,6 @@ import {
   Modal,
 } from "react-bootstrap";
 import * as s from "./styles/globalStyles";
-import styled from "styled-components";
 
 function AlertCustom(msg) {
   const [show, setShow] = useState(true);
@@ -43,122 +42,6 @@ function AlertCustom(msg) {
     </Row>
   );
 }
-
-export const StyledButton = styled.button`
-  width: 302px;
-  height: 71px;
-  border-radius: 50px;
-  border: none;
-  background-color: var(--secondary);
-  font-size: 30px;
-  font-weight: bold;
-  color: var(--secondary-text);
-  cursor: pointer;
-  box-shadow: 0px 6px 0px -2px rgba(250, 250, 250, 0.3);
-  -webkit-box-shadow: 0px 6px 0px -2px rgba(250, 250, 250, 0.3);
-  -moz-box-shadow: 0px 6px 0px -2px rgba(250, 250, 250, 0.3);
-  :active {
-    box-shadow: none;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-  }
-  :hover {
-    background: linear-gradient(307deg, #5f5bcd 24%, #ff5700 100%);
-  }
-`;
-
-export const StyledButtonWeb3 = styled.button`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 200px;
-  height: 200px;
-  border-radius: 50px;
-  border: none;
-  background-color: #1a1a1a;
-  font-size: 23px;
-  font-weight: bold;
-  color: var(--secondary-text);
-  cursor: pointer;
-  box-shadow: 0px 6px 0px -2px rgba(250, 250, 250, 0.3);
-  -webkit-box-shadow: 0px 6px 0px -2px rgba(250, 250, 250, 0.3);
-  -moz-box-shadow: 0px 6px 0px -2px rgba(250, 250, 250, 0.3);
-  :active {
-    box-shadow: none;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-  }
-  :hover {
-    background: linear-gradient(307deg, #5f5bcd 24%, #ff5700 100%);
-  }
-`;
-
-export const StyledRoundButton = styled.button`
-  padding: 10px;
-  border-radius: 100%;
-  border: none;
-  background-color: var(--primary);
-  padding: 10px;
-  font-weight: bold;
-  font-size: 15px;
-  color: var(--primary-text);
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0px 4px 0px -2px rgba(250, 250, 250, 0.3);
-  -webkit-box-shadow: 0px 4px 0px -2px rgba(250, 250, 250, 0.3);
-  -moz-box-shadow: 0px 4px 0px -2px rgba(250, 250, 250, 0.3);
-  :active {
-    box-shadow: none;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-  }
-`;
-
-export const ResponsiveWrapper = styled.div`
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: stretched;
-  align-items: stretched;
-  width: 100%;
-  @media (min-width: 767px) {
-    flex-direction: row;
-  }
-`;
-
-export const StyledLogo = styled.img`
-  width: 200px;
-  @media (min-width: 767px) {
-    width: 300px;
-  }
-  transition: width 0.5s;
-  transition: height 0.5s;
-`;
-
-export const StyledImg = styled.img`
-  box-shadow: 0px 5px 11px 2px rgba(0, 0, 0, 0.7);
-  border: 4px dashed var(--secondary);
-  background-color: var(--accent);
-  border-radius: 100%;
-  width: 200px;
-  @media (min-width: 900px) {
-    width: 250px;
-  }
-  @media (min-width: 1000px) {
-    width: 300px;
-  }
-  transition: width 0.5s;
-`;
-
-export const StyledLink = styled.a`
-  color: var(--secondary);
-  text-decoration: none;
-`;
 
 function App() {
   const dispatch = useDispatch();
@@ -196,6 +79,7 @@ function App() {
     console.log("Gas limit: ", totalGasLimit);
     setFeedback(`Minting your ${CONFIG.NFT_NAME}...`);
     setClaimingNft(true);
+    console.log(blockchain)
     blockchain.smartContract.methods
       .mint(mintAmount)
       .send({
@@ -263,36 +147,31 @@ function App() {
         <Modal.Header closeButton>
           <Modal.Title>Select Wallet</Modal.Title>
         </Modal.Header>
+
         <Modal.Body>
-          <StyledButtonWeb3
+          <s.StyledButtonWeb3
             onClick={(e) => {
               e.preventDefault();
-              dispatch(connect());
+              dispatch(connectMeta());
               getData();
               handleClose();
             }}
           >
-            <img
-              src="metamask.webp"
-              className="rounded me-2"
-              alt=""
-            />
+            <img src="metamask-logo.svg" className="rounded me-2" alt="" />
             <strong>MetaMask</strong>
-          </StyledButtonWeb3>
+          </s.StyledButtonWeb3>
           <s.SpacerSmall />
-          <StyledButtonWeb3
+          <s.StyledButtonWeb3
             onClick={(e) => {
               e.preventDefault();
+              dispatch(connectWc());
+              getData();
               handleClose();
             }}
           >
-            <img
-              src="walletconnect-logo.svg"
-              className="rounded me-2"
-              alt=""
-            />
+            <img src="walletconnect-logo.svg" className="rounded me-2" alt="" />
             <strong>WalletConnect</strong>
-          </StyledButtonWeb3>
+          </s.StyledButtonWeb3>
         </Modal.Body>
       </Modal>
       {Number(data.totalSupply) >= CONFIG.MAX_SUPPLY ? (
@@ -308,24 +187,16 @@ function App() {
             You can still find {CONFIG.NFT_NAME} on
           </s.TextDescription>
           <s.SpacerSmall />
-          <StyledLink target={"_blank"} href={CONFIG.MARKETPLACE_LINK}>
+          <s.StyledLink target={"_blank"} href={CONFIG.MARKETPLACE_LINK}>
             {CONFIG.MARKETPLACE}
-          </StyledLink>
+          </s.StyledLink>
         </>
       ) : (
         <>
-          {blockchain.account === "" || blockchain.smartContract === null ? (
+          {blockchain.account === "" ||
+          (blockchain.smartContract === null) ? (
             <s.Container ai={"center"} jc={"center"}>
-              <StyledButton
-                onClick={handleShow}
-                // onClick={(e) => {
-                //   e.preventDefault();
-                //   dispatch(connect());
-                //   getData();
-                // }}
-              >
-                GET NFT GIFT
-              </StyledButton>
+              <s.StyledButton onClick={handleShow}>GET NFT GIFT</s.StyledButton>
               {blockchain.errorMsg !== "" ? (
                 <AlertCustom>{blockchain.errorMsg}</AlertCustom>
               ) : null}
@@ -341,7 +212,7 @@ function App() {
                 {feedback}
               </s.TextDescription>
               <s.Container ai={"center"} jc={"center"} fd={"row"}>
-                <StyledButton
+                <s.StyledButton
                   disabled={claimingNft ? 1 : 0}
                   onClick={(e) => {
                     e.preventDefault();
@@ -350,7 +221,7 @@ function App() {
                   }}
                 >
                   {claimingNft ? "BUSY" : "MINT GIFT"}
-                </StyledButton>
+                </s.StyledButton>
               </s.Container>
             </>
           )}
