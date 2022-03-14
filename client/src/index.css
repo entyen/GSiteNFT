@@ -10,6 +10,16 @@ body {
   color: #fff !important;
 }
 
+
+.modal-open {
+  padding-right: 0 !important;
+}
+
+.modal-backdrop {
+  width: 100% !important;
+  height: 100% !important;
+}
+
 .image-home {
   width: 474px;
   height: 474px;
@@ -62,6 +72,38 @@ body {
   font-style: italic;
   font-weight: bold;
   color: #fff;
+}
+
+@media (max-width: 767px) {
+  .header > h3 {
+    font-size: 30px;
+  }
+  .header > img {
+    height: 90px;
+  }
+  .image-home {
+    width: 400px;
+    height: auto;
+  }
+  .load {
+    position: relative !important;
+    margin: 0 !important;
+  }
+  .images-content-center > a > .load-right {
+    left: 0px !important;
+  }
+  .images-content-center > a > .load-left {
+    left: 0px !important;
+  }
+  #videoGuide {
+    width: 360px;
+  }
+  .images-content-center {
+    align-items: center;
+  }
+  .modal-body {
+    flex-direction: column;
+  }
 }
 
 .main {

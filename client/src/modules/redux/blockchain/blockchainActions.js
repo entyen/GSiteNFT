@@ -62,7 +62,7 @@ export const connectWc = () => {
     const connector = new WalletConnect({
       bridge: "https://bridge.walletconnect.org", // Required
       qrcodeModal: QRCodeModal,
-    });
+    })
     let web3 = new Web3(provider);
     try {
       connector
