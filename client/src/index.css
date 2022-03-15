@@ -5,11 +5,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* background-color: #000 !important;
-  background-image: url("../public/bkgVideo.mp4"); */
+  background-color: #000 !important;
   color: #fff !important;
 }
-
 
 .modal-open {
   padding-right: 0 !important;
@@ -74,6 +72,10 @@ body {
   color: #fff;
 }
 
+.header > img {
+  height: 128px;
+}
+
 @media (max-width: 767px) {
   .header > h3 {
     font-size: 30px;
@@ -87,7 +89,7 @@ body {
   }
   .load {
     position: relative !important;
-    margin: 0 !important;
+    margin: 10px 0px 10px 0 !important;
   }
   .images-content-center > a > .load-right {
     left: 0px !important;
@@ -121,11 +123,10 @@ body {
 
 .load {
   width: 256px;
-  height: 256px;
   object-fit: cover;
   object-position: 50% 50%;
   position: absolute;
-  margin: -170px 0px 0 calc((100% - 980px) * 0.5);
+  margin: -90px 0px 0 calc((100% - 980px) * 0.5);
 }
 
 .images-content-center > a > .load-left {
@@ -151,10 +152,10 @@ body {
 }
 
 .card-text:last-child {
-    margin-bottom: 0;
-    background-color: white;
-    text-align: center;
-    padding: 10px;
+  margin-bottom: 0;
+  background-color: white;
+  text-align: center;
+  padding: 10px;
 }
 
 ::-webkit-scrollbar-track {
@@ -201,7 +202,7 @@ code {
   margin-top: 200px;
   margin-bottom: 30px;
   text-align: center;
-  color: #00FF35;
+  color: #00ff35;
 }
 
 .footer > p:hover {

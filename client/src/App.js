@@ -8,7 +8,7 @@ function App() {
         <source src="bkgVideo.mp4" type="video/mp4" />
       </video>
       <Container className="header">
-        <Image src="logo512.png" />
+        <Image src="logo.svg" />
         <h3>GetExperience</h3>
       </Container>
       <Container className="main">
@@ -20,11 +20,19 @@ function App() {
         </div>
         <div className="images-content-center">
           <Image className="image-home" src="home_hero.png" />
-          <a href="https://apps.apple.com/app/apple-store/id1288339409" target="_blank" rel="noreferrer">
-            <Image className="load-left load" src="a256x256.png" />
+          <a
+            href="https://apps.apple.com/app/apple-store/id1288339409"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Image className="load-left load" src="appstore-icon.svg" />
           </a>
-          <a href="https://play.google.com/store/apps/details?id=com.wallet.crypto.trustapp&gl=US" target="_blank" rel="noreferrer">
-            <Image className="load-right load" src="g256x256.png" />
+          <a
+            href="https://play.google.com/store/apps/details?id=com.wallet.crypto.trustapp&gl=US"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Image className="load-right load" src="gplay-icon.svg" />
           </a>
         </div>
         <div className="video-block">

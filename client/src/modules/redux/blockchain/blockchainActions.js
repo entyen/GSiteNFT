@@ -5,8 +5,6 @@ import Web3 from "web3";
 import { fetchData } from "../data/dataActions";
 // wallet connect
 import WalletConnectProvider from "@walletconnect/web3-provider";
-import WalletConnect from "@walletconnect/client";
-import QRCodeModal from "@walletconnect/qrcode-modal";
 
 const connectRequest = () => {
   return {
@@ -57,63 +55,41 @@ export const connectWc = () => {
         137: "https://polygon-rpc.com/",
       },
     });
-    await provider.enable();
-    Web3EthContract.setProvider(provider);
-    const connector = new WalletConnect({
-      bridge: "https://bridge.walletconnect.org", // Required
-      qrcodeModal: QRCodeModal,
-    })
-    let web3 = new Web3(provider);
     try {
-      connector
-        .connect()
-        .then((res) => {
-          const accounts = res.accounts;
-          const chainId = res.chainId;
-          if (chainId == CONFIG.NETWORK.ID) {
-            const SmartContractObj = new Web3EthContract(
-              abi,
-              CONFIG.CONTRACT_ADDRESS
-            );
-            dispatch(
-              connectSuccess({
-                account: accounts[0],
-                smartContract: SmartContractObj,
-                web3: web3,
-              })
-            );
-          } else {
-            dispatch(
-              connectFailed(`Change network to ${CONFIG.NETWORK.NAME}.`)
-            );
-          }
-        })
-        .catch((e) => {
-          dispatch(connectFailed(e.message));
+      await provider.enable();
+      Web3EthContract.setProvider(provider);
+      let web3 = new Web3(provider);
+      const accounts = await web3.eth.getAccounts();
+      const chainId = await web3.eth.getChainId();
+      if (chainId == CONFIG.NETWORK.ID) {
+        const SmartContractObj = new Web3EthContract(
+          abi,
+          CONFIG.CONTRACT_ADDRESS
+        );
+        dispatch(
+          connectSuccess({
+            account: accounts[0],
+            smartContract: SmartContractObj,
+            web3: web3,
+          })
+        );
+
+        // Add listeners start
+        provider.on("accountsChanged", (accounts) => {
+          dispatch(updateAccount(accounts[0]));
         });
-
-      connector.on("session_update", (error, payload) => {
-        if (error) {
-          throw error;
-        }
-
-        // Get updated accounts and chainId
-        const { accounts, chainId } = payload.params[0];
-        if (chainId !== CONFIG.NETWORK.ID) {
+        provider.on("chainChanged", () => {
           window.location.reload();
-        }
-      });
-
-      connector.on("disconnect", (error, payload) => {
-        if (error) {
-          throw error;
-        }
-
-        // Delete connector
-        dispatch(connectFailed("Disconnect."));
-      });
-    } catch (err) {
-      dispatch(connectFailed("Something went wrong."));
+        });
+        provider.on("disconnect", (code, reason) => {
+          dispatch(connectFailed(reason));
+        });
+        // Add listeners end
+      } else {
+        dispatch(connectFailed(`Change network to ${CONFIG.NETWORK.NAME}.`));
+      }
+    } catch (e) {
+      dispatch(connectFailed(e.message));
     }
   };
 };
@@ -165,6 +141,9 @@ export const connectMeta = () => {
           });
           ethereum.on("chainChanged", () => {
             window.location.reload();
+          });
+          ethereum.on("disconnect", (code, reason) => {
+            dispatch(connectFailed(reason));
           });
           // Add listeners end
         } else {
