@@ -4,8 +4,8 @@ import ButtonCreateNFT from "./modules/buttonCreateNFTT";
 function App() {
   return (
     <Container>
-      <video id="myVideo" autoPlay muted loop>
-        <source src="bkgVideo.mp4" type="video/mp4" />
+      <video id="myVideo" autoPlay muted loop poster="backgrounda.png">
+        {/* <source src="bkgVideo.mp4" type="video/mp4" /> */}
       </video>
       <Container className="header">
         <Image src="logo.svg" />

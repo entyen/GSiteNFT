@@ -14,16 +14,14 @@ import * as s from "./styles/globalStyles";
 
 function AlertCustom(msg) {
   const [show, setShow] = useState(true);
-  const toggleShow = () => setShow(!show);
 
   return (
     <Row>
       <Col xs={6}>
         <ToastContainer position="top-start" className="p-3 position-fixed">
           <Toast
-            onClose={toggleShow}
+            onClose={() => setShow(false)}
             show={show}
-            bg="dark"
             delay={4000}
             autohide
           >
@@ -79,7 +77,7 @@ function App() {
     console.log("Gas limit: ", totalGasLimit);
     setFeedback(`Minting your ${CONFIG.NFT_NAME}...`);
     setClaimingNft(true);
-    console.log(blockchain)
+    console.log(blockchain);
     blockchain.smartContract.methods
       .mint(mintAmount)
       .send({
@@ -193,8 +191,7 @@ function App() {
         </>
       ) : (
         <>
-          {blockchain.account === "" ||
-          (blockchain.smartContract === null) ? (
+          {blockchain.account === "" || blockchain.smartContract === null ? (
             <s.Container ai={"center"} jc={"center"}>
               <s.StyledButton onClick={handleShow}>GET NFT GIFT</s.StyledButton>
               {blockchain.errorMsg !== "" ? (
@@ -206,7 +203,7 @@ function App() {
               <s.TextDescription
                 style={{
                   textAlign: "center",
-                  color: "var(--accent-text)",
+                  // color: "var(--accent-text)",
                 }}
               >
                 {feedback}

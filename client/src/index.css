@@ -5,8 +5,12 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #000 !important;
-  color: #fff !important;
+  background-color: #fff !important;
+  color: #000 !important;
+}
+
+.modal-header {
+  border-bottom: none !important;
 }
 
 .modal-open {
@@ -69,7 +73,7 @@ body {
   font-size: 80pt;
   font-style: italic;
   font-weight: bold;
-  color: #fff;
+  color: #000;
 }
 
 .header > img {
@@ -202,7 +206,7 @@ code {
   margin-top: 200px;
   margin-bottom: 30px;
   text-align: center;
-  color: #00ff35;
+  color: #000;
 }
 
 .footer > p:hover {
