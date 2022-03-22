@@ -1,5 +1,5 @@
 import { Image, CardGroup, Card, Container } from "react-bootstrap";
-import ButtonCreateNFT from "./modules/buttonCreateNFTT";
+import ButtonCreateNFT from "./modules/buttonCreateNFT";
 
 function App() {
   return (

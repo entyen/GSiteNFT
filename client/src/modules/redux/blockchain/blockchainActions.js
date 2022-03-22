@@ -61,6 +61,7 @@ export const connectWc = () => {
       let web3 = new Web3(provider);
       const accounts = await web3.eth.getAccounts();
       const chainId = await web3.eth.getChainId();
+      console.log(accounts)
       if (chainId == CONFIG.NETWORK.ID) {
         const SmartContractObj = new Web3EthContract(
           abi,
