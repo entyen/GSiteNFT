@@ -1,0 +1,19 @@
+{
+  "CONTRACT_ADDRESS": "0x28F65f5c80F56611aA4DaF2D44089128AF83C407",
+  "SCAN_LINK": "https://mumbai.polygonscan.com/address/0x28f65f5c80f56611aa4daf2d44089128af83c407",
+  "NETWORK": {
+    "NAME": "Polygon",
+    "SYMBOL": "Matic",
+    "ID": 80001
+  },
+  "NFT_NAME": "GNFT_TEST",
+  "SYMBOL": "GNFT",
+  "MAX_SUPPLY": 1000,
+  "WEI_COST": 0,
+  "DISPLAY_COST": 1,
+  "MAX_MINT": 5,
+  "GAS_LIMIT": 285000,
+  "MARKETPLACE": "Opeansea",
+  "MARKETPLACE_LINK": "https://opensea.io/collection/GNFT",
+  "SHOW_BACKGROUND": false
+}

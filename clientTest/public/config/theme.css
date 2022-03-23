@@ -1,0 +1,19 @@
+:root {
+  --primary: #ffe5ad;
+  --primary-text: #000000;
+  --secondary: #00FF35;
+  --secondary-text: #ffffff;
+  --accent: #bebebe00;
+  --accent-text: #ffffff;
+}
+
+.modal-body {
+  display: flex;
+  justify-content: center;
+}
+
+.modal-content {
+  background-color: rgba(255, 255, 255, 0.418) !important;
+  border: none !important;
+  border-radius: 3rem !important;
+}
