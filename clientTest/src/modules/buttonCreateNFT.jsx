@@ -82,7 +82,6 @@ function App() {
       .call()
       .then(async (arr) => {
         const mass = [];
-        const discounts = [];
         for (let i = 0; i < arr.length; i++) {
           let sortMass = "";
           sortMass = await blockchain.smartContract.methods
@@ -90,36 +89,27 @@ function App() {
             .call();
           mass.push(sortMass.replace("ipfs://", "https://ipfs.io/ipfs/"));
         }
-        // mass.forEach((x, y, z) => {
-        //   fetch(mass[y])
-        //     .then((res) => res.json())
-        //     .then((out) => {
-        //       discounts.push(
-        //         +out.attributes
-        //           .find((dis) => dis.trait_type == "Discount")
-        //           .value.split("%")[0]
-        //       );
-        //     })
-        //     .catch((err) => console.log(err));
-        // });
+        const discounts = [];
         let requests = mass.map((url) => fetch(url));
         Promise.all(requests)
           .then((responses) => Promise.all(responses.map((r) => r.json())))
-          .then((users) =>
-            users.forEach((user) =>
+          .then(async (users) => {
+            await users.forEach((user) => {
               discounts.push(
                 +user.attributes
                   .find((dis) => dis.trait_type == "Discount")
                   .value.split("%")[0]
-              )
-            )
-          );
+              );
+              discounts.sort((a, b) => {
+                return b - a;
+              });
+            });
+            return discounts[0];
+          })
+          .then((d) => console.log(d))
+          .catch((e) => console.log(e));
 
-        // discounts.sort((a, b) => {
-        //   return b - a;
-        // });
         console.dir(mass);
-        console.dir(discounts);
       });
     // blockchain.smartContract.methods
     //   .mint()
