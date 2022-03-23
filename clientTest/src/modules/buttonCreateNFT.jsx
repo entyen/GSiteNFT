@@ -46,7 +46,9 @@ function App() {
   const blockchain = useSelector((state) => state.blockchain);
   const data = useSelector((state) => state.data);
   const [claimingNft, setClaimingNft] = useState(false);
-  const [feedback, setFeedback] = useState(`Click MING GIFT to mint your NFT.`);
+  const [feedback, setFeedback] = useState(
+    `Click GET DISCOUNT to get your DISCOUNT.`
+  );
   const [mintAmount, setMintAmount] = useState(1);
   const [CONFIG, SET_CONFIG] = useState({
     CONTRACT_ADDRESS: "",
@@ -75,7 +77,7 @@ function App() {
     let totalGasLimit = String(gasLimit * mintAmount);
     // console.log("Cost: ", totalCostWei);
     // console.log("Gas limit: ", totalGasLimit);
-    setFeedback(`Minting your ${CONFIG.NFT_NAME}...`);
+    setFeedback(`Scaning your Discount...`);
     // setClaimingNft(true);
     blockchain.smartContract.methods
       .walletOfOwner(blockchain.account)
@@ -106,10 +108,14 @@ function App() {
             });
             return discounts[0];
           })
-          .then((d) => console.log(d))
+          .then((d) => {
+            setFeedback(`Your Discount ${d}%`);
+            console.log(d);
+          })
           .catch((e) => console.log(e));
 
         console.dir(mass);
+        console.log(blockchain.account);
       });
     // blockchain.smartContract.methods
     //   .mint()
@@ -250,7 +256,7 @@ function App() {
                     getData();
                   }}
                 >
-                  {claimingNft ? "BUSY" : "MINT GIFT"}
+                  {claimingNft ? "BUSY" : "GET DISCOUNT"}
                 </s.StyledButton>
               </s.Container>
             </>
