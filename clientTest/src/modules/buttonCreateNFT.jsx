@@ -70,15 +70,9 @@ function App() {
     SHOW_BACKGROUND: false,
   });
 
-  const claimNFTs = () => {
-    // let cost = CONFIG.WEI_COST;
-    let gasLimit = CONFIG.GAS_LIMIT;
-    // let totalCostWei = String(cost * mintAmount);
-    let totalGasLimit = String(gasLimit * mintAmount);
-    // console.log("Cost: ", totalCostWei);
-    // console.log("Gas limit: ", totalGasLimit);
+  const getDiscount = () => {
     setFeedback(`Scaning your Discount...`);
-    // setClaimingNft(true);
+    setClaimingNft(true);
     blockchain.smartContract.methods
       .walletOfOwner(blockchain.account)
       .call()
@@ -110,6 +104,7 @@ function App() {
           })
           .then((d) => {
             setFeedback(`Your Discount ${d}%`);
+            setClaimingNft(false)
             console.log(d);
           })
           .catch((e) => console.log(e));
@@ -117,27 +112,6 @@ function App() {
         console.dir(mass);
         console.log(blockchain.account);
       });
-    // blockchain.smartContract.methods
-    //   .mint()
-    //   .send({
-    //     gasLimit: String(totalGasLimit),
-    //     to: CONFIG.CONTRACT_ADDRESS,
-    //     from: blockchain.account,
-    //     value: totalCostWei,
-    //   })
-    //   .once("error", (err) => {
-    //     console.log(err);
-    //     setFeedback("Sorry, something went wrong please try again later.");
-    //     setClaimingNft(false);
-    //   })
-    //   .then((receipt) => {
-    //     console.log(receipt);
-    //     setFeedback(
-    //       `WOW, the ${CONFIG.NFT_NAME} is yours! go visit Opensea.io to view it.`
-    //     );
-    //     setClaimingNft(false);
-    //     dispatch(fetchData(blockchain.account));
-    //   });
   };
 
   const getData = () => {
@@ -232,7 +206,7 @@ function App() {
         <>
           {blockchain.account === "" || blockchain.smartContract === null ? (
             <s.Container ai={"center"} jc={"center"}>
-              <s.StyledButton onClick={handleShow}>GET NFT GIFT</s.StyledButton>
+              <s.StyledButton onClick={handleShow}>DISCOUNT</s.StyledButton>
               {blockchain.errorMsg !== "" ? (
                 <AlertCustom>{blockchain.errorMsg}</AlertCustom>
               ) : null}
@@ -252,7 +226,7 @@ function App() {
                   disabled={claimingNft ? 1 : 0}
                   onClick={(e) => {
                     e.preventDefault();
-                    claimNFTs();
+                    getDiscount();
                     getData();
                   }}
                 >
