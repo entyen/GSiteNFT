@@ -24,7 +24,9 @@
   },
   "scripts": {
     "start": "react-scripts --openssl-legacy-provider start",
-    "build": "react-scripts --openssl-legacy-provider start",
+    "build": "react-scripts --openssl-legacy-provider build",
+    "starth": "react-scripts start",
+    "buildh": "react-scripts build",
     "buildNoMap": "GENERATE_SOURCEMAP=false react-scripts build",
     "winBuildNoMap": "set \"GENERATE_SOURCEMAP=false\" && react-scripts build",
     "test": "react-scripts test",

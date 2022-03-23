@@ -90,22 +90,36 @@ function App() {
             .call();
           mass.push(sortMass.replace("ipfs://", "https://ipfs.io/ipfs/"));
         }
-        mass.forEach((x, y, z) =>
-          fetch(mass[y])
-            .then((res) => res.json())
-            .then((out) => {
-              console.log(
-                +out.attributes
+        // mass.forEach((x, y, z) => {
+        //   fetch(mass[y])
+        //     .then((res) => res.json())
+        //     .then((out) => {
+        //       discounts.push(
+        //         +out.attributes
+        //           .find((dis) => dis.trait_type == "Discount")
+        //           .value.split("%")[0]
+        //       );
+        //     })
+        //     .catch((err) => console.log(err));
+        // });
+        let requests = mass.map((url) => fetch(url));
+        Promise.all(requests)
+          .then((responses) => Promise.all(responses.map((r) => r.json())))
+          .then((users) =>
+            users.forEach((user) =>
+              discounts.push(
+                +user.attributes
                   .find((dis) => dis.trait_type == "Discount")
                   .value.split("%")[0]
-              );
-            })
-            .catch((err) => console.log(err))
-        )
+              )
+            )
+          );
+
         // discounts.sort((a, b) => {
         //   return b - a;
         // });
         console.dir(mass);
+        console.dir(discounts);
       });
     // blockchain.smartContract.methods
     //   .mint()
