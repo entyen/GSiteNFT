@@ -38,18 +38,23 @@ function App() {
           .then((responses) => Promise.all(responses.map((r) => r.json())))
           .then((jsondata) => {
             jsondata.forEach((data) => {
-              discounts.push(
-                data.attributes.find((dis) => dis.trait_type == "Discount")
-                  .value,
-              );
+              discounts.push({
+                id: data.name.split("#")[1],
+                percent: data.attributes.find(
+                  (dis) => dis.trait_type === "Discount"
+                ).value,
+              });
             });
-            const maxDisc = Math.max(...discounts);
-            return maxDisc; // Получение максимальной скидки из массива
+            discounts.sort((a, b) => {
+              return b.percent - a.percent
+            });
+            return discounts[0]; // Получение максимальной скидки из массива
           })
           .then((d) => {
-            setFeedback(`Your Discount ${d}%`);
+            setFeedback(`Your Discount ${d.percent}%`);
             setChekingNft(false);
-            console.log(d); // Отображение скидки
+            console.log(`id: ${d.id}`); // Отображение айди NFT
+            console.log(`percent: ${d.percent}`); // Отображение скидки
           })
           .catch((e) => console.log(e));
 

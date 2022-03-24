@@ -42,33 +42,24 @@ export const connectWc = () => {
       },
     });
     const abi = await abiResponse.json();
-    const configResponse = await fetch("/config/config.json", {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    });
-    const CONFIG = await configResponse.json();
+    const ContractAddress = "0x28F65f5c80F56611aA4DaF2D44089128AF83C407";
     // Подключение ABI и Конфигураций контракта
     const provider = new WalletConnectProvider({
-      //Сети подключение для провайдера https://docs.walletconnect.com/quick-start/dapps/web3-provider
+      // Сети подключение для провайдера https://docs.walletconnect.com/quick-start/dapps/web3-provider
       rpc: {
         137: "https://polygon-rpc.com/",
         80001: "https://matic-mumbai.chainstacklabs.com",
       },
     });
     try {
-      await provider.enable(); //Включение провайдера (Вызывает QR Окно для Авторизации)
-      Web3EthContract.setProvider(provider); //Подключение к провайдеру
-      let web3 = new Web3(provider); //Инициализация провайдера
-      const accounts = await web3.eth.getAccounts(); //Запрос Аккаунта
-      const chainId = await web3.eth.getChainId(); //Запрос Сети
-      //Проверка в какой сети пользователь
-      if (chainId == 137 || chainId == 80001) {
-        const SmartContractObj = new Web3EthContract(
-          abi,
-          CONFIG.CONTRACT_ADDRESS
-        );
+      await provider.enable(); // Включение провайдера (Вызывает QR Окно для Авторизации)
+      Web3EthContract.setProvider(provider); // Подключение к провайдеру
+      let web3 = new Web3(provider); // Инициализация провайдера
+      const accounts = await web3.eth.getAccounts(); // Запрос Аккаунта
+      const chainId = await web3.eth.getChainId(); // Запрос Сети
+      // Проверка в какой сети пользователь
+      if (chainId === "137" || chainId === "80001") {
+        const SmartContractObj = new Web3EthContract(abi, ContractAddress);
         dispatch(
           connectSuccess({
             account: accounts[0],
@@ -89,7 +80,7 @@ export const connectWc = () => {
         });
         // Конец слушателей
       } else {
-        dispatch(connectFailed(`Change network to ${CONFIG.NETWORK.NAME}.`));
+        dispatch(connectFailed(`Change network to Polygon.`));
       }
     } catch (e) {
       dispatch(connectFailed(e.message));
@@ -107,13 +98,7 @@ export const connectMeta = () => {
       },
     });
     const abi = await abiResponse.json();
-    const configResponse = await fetch("/config/config.json", {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    });
-    const CONFIG = await configResponse.json();
+    const ContractAddress = "0x28F65f5c80F56611aA4DaF2D44089128AF83C407";
     const { ethereum } = window;
     const metamaskIsInstalled = ethereum && ethereum.isMetaMask;
     if (metamaskIsInstalled) {
@@ -123,14 +108,11 @@ export const connectMeta = () => {
         const accounts = await ethereum.request({
           method: "eth_requestAccounts",
         });
-        const networkId = await ethereum.request({
+        const chainId = await ethereum.request({
           method: "net_version",
         });
-        if (networkId == CONFIG.NETWORK.ID) {
-          const SmartContractObj = new Web3EthContract(
-            abi,
-            CONFIG.CONTRACT_ADDRESS
-          );
+        if (chainId === "137" || chainId === "80001") {
+          const SmartContractObj = new Web3EthContract(abi, ContractAddress);
           dispatch(
             connectSuccess({
               account: accounts[0],
@@ -150,7 +132,7 @@ export const connectMeta = () => {
           });
           // Add listeners end
         } else {
-          dispatch(connectFailed(`Change network to ${CONFIG.NETWORK.NAME}.`));
+          dispatch(connectFailed(`Change network to Polygon.`));
         }
       } catch (err) {
         dispatch(connectFailed("Something went wrong."));
