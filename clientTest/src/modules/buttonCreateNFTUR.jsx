@@ -20,7 +20,7 @@ function App() {
       .call() // Запрос НФТ которыми владеет человек https://web3js.readthedocs.io/en/v1.7.1/web3-eth-contract.html#methods
       .then(async (arr) => {
         const mass = []; // Массив НФТ
-        if (!arr[0]) {
+        if (!arr.length) {
           setFeedback(`No Discounts`);
           setChekingNft(false);
           return;
@@ -29,7 +29,7 @@ function App() {
           let sortMass = "";
           sortMass = await blockchain.smartContract.methods
             .tokenURI(arr[i])
-            .call(); 
+            .call();
           mass.push(sortMass.replace("ipfs://", "https://ipfs.io/ipfs/"));
         } // Перебор НФТ получение URI и замена начала
         const discounts = []; // Массив Скидок
@@ -39,9 +39,8 @@ function App() {
           .then((jsondata) => {
             jsondata.forEach((data) => {
               discounts.push(
-                +data.attributes
-                  .find((dis) => dis.trait_type == "Discount")
-                  .value.split("%")[0]
+                data.attributes.find((dis) => dis.trait_type == "Discount")
+                  .value,
               );
             });
             const maxDisc = Math.max(...discounts);
