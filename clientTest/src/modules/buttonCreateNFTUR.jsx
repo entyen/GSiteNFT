@@ -45,7 +45,6 @@ function App() {
               );
             });
             const maxDisc = Math.max(...discounts);
-            if (maxDisc > 10 || maxDisc < 0) return 0
             return maxDisc; // Получение максимальной скидки из массива
           })
           .then((d) => {
@@ -56,7 +55,7 @@ function App() {
           .catch((e) => console.log(e));
 
         console.dir(mass);
-        console.log(blockchain);
+        console.log(blockchain.account);
       });
   };
 
