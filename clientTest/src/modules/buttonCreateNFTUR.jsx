@@ -17,23 +17,23 @@ function App() {
     setChekingNft(true);
     blockchain.smartContract.methods
       .walletOfOwner(blockchain.account)
-      .call() // Запрос НФТ которыми владеет человек https://web3js.readthedocs.io/en/v1.7.1/web3-eth-contract.html#methods
+      .call() // Запрос NFT которыми владеет человек https://web3js.readthedocs.io/en/v1.7.1/web3-eth-contract.html#methods
       .then(async (arr) => {
-        const mass = []; // Массив НФТ
+        const mass = []; // Массив NFT
         if (!arr.length) {
           setFeedback(`No Discounts`);
           setChekingNft(false);
           return;
-        } // Проверка наличия НФТ
+        } // Проверка наличия NFT
         for (let i = 0; i < arr.length; i++) {
           let sortMass = "";
           sortMass = await blockchain.smartContract.methods
             .tokenURI(arr[i])
             .call();
           mass.push(sortMass.replace("ipfs://", "https://ipfs.io/ipfs/"));
-        } // Перебор НФТ получение URI и замена начала
+        } // Перебор NFT получение URI и замена начала
         const discounts = []; // Массив Скидок
-        let requests = mass.map((url) => fetch(url)); // Запрос JSON файлов НФТшек
+        let requests = mass.map((url) => fetch(url)); // Запрос JSON файлов NFT
         Promise.all(requests)
           .then((responses) => Promise.all(responses.map((r) => r.json())))
           .then((jsondata) => {
