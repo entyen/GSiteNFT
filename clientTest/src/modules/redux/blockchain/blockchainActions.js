@@ -1,8 +1,6 @@
 // constants
 import Web3EthContract from "web3-eth-contract";
 import Web3 from "web3";
-// log
-import { fetchData } from "../data/dataActions";
 // wallet connect
 import WalletConnectProvider from "@walletconnect/web3-provider";
 
@@ -36,6 +34,7 @@ const updateAccountRequest = (payload) => {
 export const connectWc = () => {
   return async (dispatch) => {
     dispatch(connectRequest());
+    // Подключение ABI и Конфигураций контракта
     const abiResponse = await fetch("/config/abi.json", {
       headers: {
         "Content-Type": "application/json",
@@ -50,18 +49,21 @@ export const connectWc = () => {
       },
     });
     const CONFIG = await configResponse.json();
+    // Подключение ABI и Конфигураций контракта
     const provider = new WalletConnectProvider({
+      //Сети подключение для провайдера https://docs.walletconnect.com/quick-start/dapps/web3-provider
       rpc: {
         137: "https://polygon-rpc.com/",
-        80001: "https://matic-mumbai.chainstacklabs.com"
+        80001: "https://matic-mumbai.chainstacklabs.com",
       },
     });
     try {
-      await provider.enable();
-      Web3EthContract.setProvider(provider);
-      let web3 = new Web3(provider);
-      const accounts = await web3.eth.getAccounts();
-      const chainId = await web3.eth.getChainId();
+      await provider.enable(); //Включение провайдера (Вызывает QR Окно для Авторизации)
+      Web3EthContract.setProvider(provider); //Подключение к провайдеру
+      let web3 = new Web3(provider); //Инициализация провайдера
+      const accounts = await web3.eth.getAccounts(); //Запрос Аккаунта
+      const chainId = await web3.eth.getChainId(); //Запрос Сети
+      //Проверка в какой сети пользователь
       if (chainId == 137 || chainId == 80001) {
         const SmartContractObj = new Web3EthContract(
           abi,
@@ -73,9 +75,9 @@ export const connectWc = () => {
             smartContract: SmartContractObj,
             web3: web3,
           })
-        );
+        ); // Возврат данных при успешном подключения
 
-        // Add listeners start
+        // Слушатели смены аккаунта, сети, диссконекта
         provider.on("accountsChanged", (accounts) => {
           dispatch(updateAccount(accounts[0]));
         });
@@ -85,7 +87,7 @@ export const connectWc = () => {
         provider.on("disconnect", (code, reason) => {
           dispatch(connectFailed(reason));
         });
-        // Add listeners end
+        // Конец слушателей
       } else {
         dispatch(connectFailed(`Change network to ${CONFIG.NETWORK.NAME}.`));
       }
@@ -162,6 +164,5 @@ export const connectMeta = () => {
 export const updateAccount = (account) => {
   return async (dispatch) => {
     dispatch(updateAccountRequest({ account: account }));
-    dispatch(fetchData(account));
   };
 };

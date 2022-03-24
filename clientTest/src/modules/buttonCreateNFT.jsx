@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { connectMeta, connectWc } from "./redux/blockchain/blockchainActions";
 import { fetchData } from "./redux/data/dataActions";
@@ -7,7 +7,6 @@ import {
   Col,
   Toast,
   ToastContainer,
-  Button,
   Modal,
 } from "react-bootstrap";
 import * as s from "./styles/globalStyles";
@@ -49,7 +48,6 @@ function App() {
   const [feedback, setFeedback] = useState(
     `Click GET DISCOUNT to get your DISCOUNT.`
   );
-  const [mintAmount, setMintAmount] = useState(1);
   const [CONFIG, SET_CONFIG] = useState({
     CONTRACT_ADDRESS: "",
     SCAN_LINK: "",
@@ -89,22 +87,20 @@ function App() {
         let requests = mass.map((url) => fetch(url));
         Promise.all(requests)
           .then((responses) => Promise.all(responses.map((r) => r.json())))
-          .then(async (users) => {
-            await users.forEach((user) => {
+          .then((jsondata) => {
+            jsondata.forEach((data) => {
               discounts.push(
-                +user.attributes
+                +data.attributes
                   .find((dis) => dis.trait_type == "Discount")
                   .value.split("%")[0]
               );
-              discounts.sort((a, b) => {
-                return b - a;
-              });
             });
-            return discounts[0];
+            const maxDisc = Math.max(...discounts);
+            return maxDisc;
           })
           .then((d) => {
             setFeedback(`Your Discount ${d}%`);
-            setClaimingNft(false)
+            setClaimingNft(false);
             console.log(d);
           })
           .catch((e) => console.log(e));
