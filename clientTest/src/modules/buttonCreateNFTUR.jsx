@@ -45,6 +45,7 @@ function App() {
               );
             });
             const maxDisc = Math.max(...discounts);
+            if (maxDisc > 10 || maxDisc < 0) return null
             return maxDisc; // Получение максимальной скидки из массива
           })
           .then((d) => {
