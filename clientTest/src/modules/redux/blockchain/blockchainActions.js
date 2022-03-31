@@ -66,7 +66,7 @@ export const connectWc = () => {
             smartContract: SmartContractObj,
             web3: web3,
           })
-        ); // Возврат данных при успешном подключения
+        ); // Возврат данных при успешном подключении
 
         // Слушатели смены аккаунта, сети, диссконекта
         provider.on("accountsChanged", (accounts) => {
