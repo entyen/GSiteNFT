@@ -18,14 +18,28 @@
       type="text/javascript"
       src="web3-provider.min.js"
     ></script>
+    <script
+      language="javascript"
+      type="text/javascript"
+      src="gnft_abi.js"
+    ></script>
   </head>
   <body>
     <script>
       var gnft;
+      var userAccount;
 
       function startApp() {
         var gnft_address = "0x28F65f5c80F56611aA4DaF2D44089128AF83C407";
         gnft = new web3js.eth.Contract(gnft_abi, gnft_address);
+
+        var accountInterval = setInterval(function () {
+          if (web3.eth.accounts[0] !== userAccount) {
+            userAccount = web3.eth.accounts[0];
+
+            walletOfOwner(userAccount).then(console.log);
+          }
+        }, 1000);
       }
 
       window.addEventListener("load", function () {
