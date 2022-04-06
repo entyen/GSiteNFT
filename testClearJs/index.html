@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>GNFT front-end</title>
+    <script
+      language="javascript"
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+    ></script>
+    <script
+      language="javascript"
+      type="text/javascript"
+      src="web3.min.js"
+    ></script>
+    <script
+      language="javascript"
+      type="text/javascript"
+      src="web3-provider.min.js"
+    ></script>
+  </head>
+  <body>
+    <script>
+      var gnft;
+
+      function startApp() {
+        var gnft_address = "0x28F65f5c80F56611aA4DaF2D44089128AF83C407";
+        gnft = new web3js.eth.Contract(gnft_abi, gnft_address);
+      }
+
+      window.addEventListener("load", function () {
+        if (typeof web3 !== "undefined") {
+          web3js = new Web3(web3.currentProvider);
+        } else {
+          // Handle the case where the user doesn't have Metamask installed
+          // Probably show them a message prompting them to install Metamask
+        }
+
+        startApp();
+      });
+    </script>
+  </body>
+</html>
