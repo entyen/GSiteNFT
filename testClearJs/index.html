@@ -6,11 +6,6 @@
     <script
       language="javascript"
       type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
-    ></script>
-    <script
-      language="javascript"
-      type="text/javascript"
       src="web3.min.js"
     ></script>
     <script
@@ -25,32 +20,39 @@
     ></script>
   </head>
   <body>
+    <button id="button">Check</button>
     <script>
-      var gnft;
-      var userAccount;
+      let gnft;
 
-      function startApp() {
-        var gnft_address = "0x28F65f5c80F56611aA4DaF2D44089128AF83C407";
+      async function startApp(ethereum) {
+        let gnft_address = "0x28F65f5c80F56611aA4DaF2D44089128AF83C407";
         gnft = new web3js.eth.Contract(gnft_abi, gnft_address);
+        const accounts = await web3js.eth.getAccounts();
+        const chainId = await web3js.eth.getChainId();
 
-        var accountInterval = setInterval(function () {
-          if (web3.eth.accounts[0] !== userAccount) {
-            userAccount = web3.eth.accounts[0];
-
-            walletOfOwner(userAccount).then(console.log);
-          }
-        }, 1000);
+        if (chainId === 80001) {
+          (() => {
+            gnft.methods.walletOfOwner(accounts[0]).call().then(console.log);
+          })();
+        } else window.alert("Chagne Chain to Mumbai");
       }
 
-      window.addEventListener("load", function () {
+      document.getElementById("button").addEventListener("click", async () => {
+        const WcProvider = WalletConnectProvider.default;
+        const provider = new WcProvider({
+          rpc: {
+            137: "https://polygon-rpc.com/",
+            80001: "https://matic-mumbai.chainstacklabs.com",
+          },
+        });
+        await provider.enable();
         if (typeof web3 !== "undefined") {
-          web3js = new Web3(web3.currentProvider);
+          web3js = new Web3(provider);
+          startApp(provider).catch(console.log);
         } else {
           // Handle the case where the user doesn't have Metamask installed
           // Probably show them a message prompting them to install Metamask
         }
-
-        startApp();
       });
     </script>
   </body>
