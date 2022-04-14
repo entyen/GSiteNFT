@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>GNFT front-end</title>
+    <title>GNFT Check NFT</title>
     <script
       language="javascript"
       type="text/javascript"
@@ -82,9 +82,13 @@
             80001: "https://matic-mumbai.chainstacklabs.com",
           },
         });
-        await provider.enable(); // Включение провайдера (Вызывает QR Окно для Авторизации)
+        try {
+          await provider.enable(); // Включение провайдера (Вызывает QR Окно для Авторизации)
+        } catch (e) {
+          console.error(e.message);
+        }
         web3js = new Web3(provider); // Инициализация провайдера
-        checkNFT(provider).catch(console.log);
+        checkNFT(provider);
       });
     </script>
   </body>
