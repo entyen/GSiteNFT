@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>GNFT front-end</title>
+    <title>GNFT Check NFT</title>
     <script
       language="javascript"
       type="text/javascript"
@@ -24,35 +24,100 @@
     <script>
       let gnft;
 
-      async function startApp(ethereum) {
-        let gnft_address = "0x28F65f5c80F56611aA4DaF2D44089128AF83C407";
-        gnft = new web3js.eth.Contract(gnft_abi, gnft_address);
-        const accounts = await web3js.eth.getAccounts();
-        const chainId = await web3js.eth.getChainId();
+      async function checkNFT(ethereum) {
+        let gnft_address = "0x28F65f5c80F56611aA4DaF2D44089128AF83C407"; //Адрес контракта
+        gnft = new web3js.eth.Contract(gnft_abi, gnft_address); // Инициализация контаркта и API для обращений к нему
+        const accounts = await web3js.eth.getAccounts(); // Запрос Аккаунта
+        const chainId = await web3js.eth.getChainId(); // Запрос Сети
 
         if (chainId === 80001) {
-          (() => {
-            gnft.methods.walletOfOwner(accounts[0]).call().then(console.log);
-          })();
-        } else window.alert("Chagne Chain to Mumbai");
+          // Проверка ИД Сети сеть с контрактом
+          async function fetchWithTimeout(resource, options = {}) {
+            const { timeout = 8000 } = options;
+
+            const controller = new AbortController();
+            const id = setTimeout(() => controller.abort(), timeout);
+            const response = await fetch(resource, {
+              ...options,
+              signal: controller.signal,
+            });
+            clearTimeout(id);
+            return response;
+          }
+
+          gnft.methods
+            .walletOfOwner(accounts[0])
+            .call() // Запрос NFT которыми владеет человек https://web3js.readthedocs.io/en/v1.7.1/web3-eth-contract.html#methods
+            .then(async (arr) => {
+              const mass = []; // Массив NFT
+              document.getElementById("button").innerHTML = "loading...";
+              if (arr.length) {
+                // Проверка наличия NFT
+                for (let i = 0; i < arr.length; i++) {
+                  let sortMass = "";
+                  sortMass = await gnft.methods.tokenURI(arr[i]).call();
+                  mass.push(
+                    sortMass.replace("ipfs://", "https://ipfs.io/ipfs/")
+                  );
+                } // Перебор NFT получение URI и замена начала
+                const discounts = []; // Массив Скидок
+                const controller = new AbortController();
+                // 5 second timeout:
+                const timeoutId = setTimeout(() => controller.abort(), 5000);
+                let requests = mass.map((url) =>
+                  fetchWithTimeout(url, {
+                    timeout: 5000,
+                  }).catch(document.getElementById("button").innerHTML = "Time Out")
+                ); // Запрос JSON файлов NFT
+                Promise.all(requests)
+                  .then((responses) =>
+                    Promise.all(responses.map((r) => r.json()))
+                  )
+                  .then((jsondata) => {
+                    jsondata.forEach((data) => {
+                      discounts.push({
+                        id: data.name.split("#")[1],
+                        percent: data.attributes.find(
+                          (dis) => dis.trait_type === "Discount"
+                        ).value,
+                      });
+                    });
+                    discounts.sort((a, b) => {
+                      return b.percent - a.percent;
+                    });
+                    return discounts[0]; // Получение максимальной скидки из массива
+                  })
+                  .then(async (d) => {
+                    console.log(`id: ${d.id}`); // Отображение айди NFT
+                    console.log(`percent: ${d.percent}`); // Отображение скидки
+                    document.getElementById(
+                      "button"
+                    ).innerHTML = `You discount ${d.percent}%`;
+                  });
+              } else {
+                console.log("No NFT");
+                document.getElementById("button").innerHTML = `No Discounts`;
+              }
+            });
+        } else window.alert("Chagne Chain to Polygon Network");
       }
 
       document.getElementById("button").addEventListener("click", async () => {
-        const WcProvider = WalletConnectProvider.default;
+        const WcProvider = WalletConnectProvider.default; // Подключение к провайдеру
         const provider = new WcProvider({
+          // Сети подключение для провайдера https://docs.walletconnect.com/quick-start/dapps/web3-provider
           rpc: {
             137: "https://polygon-rpc.com/",
             80001: "https://matic-mumbai.chainstacklabs.com",
           },
         });
-        await provider.enable();
-        if (typeof web3 !== "undefined") {
-          web3js = new Web3(provider);
-          startApp(provider).catch(console.log);
-        } else {
-          // Handle the case where the user doesn't have Metamask installed
-          // Probably show them a message prompting them to install Metamask
+        try {
+          await provider.enable(); // Включение провайдера (Вызывает QR Окно для Авторизации)
+        } catch (e) {
+          console.error(e.message);
         }
+        web3js = new Web3(provider); // Инициализация провайдера
+        checkNFT(provider);
       });
     </script>
   </body>

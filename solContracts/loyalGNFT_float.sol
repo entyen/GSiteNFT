@@ -1280,6 +1280,7 @@ contract gtest_flat is ERC721Enumerable, Ownable {
     uint256 supply = totalSupplyCommon();
     require(!paused);
     require(supply + mintAmount <= 300);
+    require(balanceOf(msg.sender) < 1, "ERC721: You can mint only one Free NFT");
 
     if (msg.sender != owner()) {
       require(msg.value >= costCommon);
