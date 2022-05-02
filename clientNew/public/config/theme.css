@@ -1,0 +1,39 @@
+:root {
+  --primary: #ffe5ad;
+  --primary-text: #000000;
+  --secondary: #00FF35;
+  --secondary-text: #ffffff;
+  --accent: #bebebe00;
+  --accent-text: #ffffff;
+}
+
+.modal-body {
+  display: flex;
+  justify-content: center;
+}
+
+.modal-content {
+  background-color: rgb(255, 255, 255) !important;
+  border: none !important;
+  border-radius: 27px !important;
+  padding-bottom: 40px;
+}
+
+.modal-header {
+  border-bottom: none !important;
+}
+
+.modal-open {
+  padding-right: 0 !important;
+}
+
+.modal-backdrop {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+@media (max-width: 767px) {
+  .modal-body {
+    flex-direction: column;
+  }
+}

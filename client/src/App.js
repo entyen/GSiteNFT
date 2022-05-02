@@ -7,59 +7,59 @@ function App() {
       <video id="myVideo" autoPlay muted loop poster="backgrounda.png">
         {/* <source src="bkgVideo.mp4" type="video/mp4" /> */}
       </video>
-      <Container className="header">
+      <Container classNameName="header">
         <Image src="logo.svg" />
         <h3>GetExperience</h3>
       </Container>
-      <Container className="main">
-        <div className="button">
+      <Container classNameName="main">
+        <div classNameName="button">
           <ButtonCreateNFT />
         </div>
-        <div className="cont-text">
+        <div classNameName="cont-text">
           <h4>1. Create a crypto wallet (TrustWallet,Metamask, etc.)</h4>
         </div>
-        <div className="images-content-center">
-          <Image className="image-home" src="home_hero.png" />
+        <div classNameName="images-content-center">
+          <Image classNameName="image-home" src="home_hero.png" />
           <a
             href="https://apps.apple.com/app/apple-store/id1288339409"
             target="_blank"
             rel="noreferrer"
           >
-            <Image className="load-left load" src="appstore-icon.svg" />
+            <Image classNameName="load-left load" src="appstore-icon.svg" />
           </a>
           <a
             href="https://play.google.com/store/apps/details?id=com.wallet.crypto.trustapp&gl=US"
             target="_blank"
             rel="noreferrer"
           >
-            <Image className="load-right load" src="gplay-icon.svg" />
+            <Image classNameName="load-right load" src="gplay-icon.svg" />
           </a>
         </div>
-        <div className="video-block">
-          <div className="cont-text">
+        <div classNameName="video-block">
+          <div classNameName="cont-text">
             <h4>VIDEO GUIDE</h4>
           </div>
           <video id="videoGuide" controls>
             <source src="instruction.mp4" type="video/mp4" />
           </video>
         </div>
-        <div className="cont-text">
+        <div classNameName="cont-text">
           <h4>2. Buying cryptocurrency to pay commissions on the network</h4>
         </div>
         <CardGroup>
-          <Card className="text-dark">
+          <Card classNameName="text-dark">
             <Card.Body>
               <Card.Img variant="top" src="guide1.jpg" />
               <Card.Text>click on the buy button</Card.Text>
             </Card.Body>
           </Card>
-          <Card className="text-dark">
+          <Card classNameName="text-dark">
             <Card.Body>
               <Card.Img variant="top" src="guide2.jpg" />
               <Card.Text>Click on the cryptocurrency MATIC</Card.Text>
             </Card.Body>
           </Card>
-          <Card className="text-dark">
+          <Card classNameName="text-dark">
             <Card.Body>
               <Card.Img variant="top" src="guide9.jpg" />
               <Card.Text>
@@ -68,19 +68,19 @@ function App() {
               </Card.Text>
             </Card.Body>
           </Card>
-          <Card className="text-dark">
+          <Card classNameName="text-dark">
             <Card.Body>
               <Card.Img variant="top" src="guide3.jpg" />
               <Card.Text>choose Simplex</Card.Text>
             </Card.Body>
           </Card>
-          <Card className="text-dark">
+          <Card classNameName="text-dark">
             <Card.Body>
               <Card.Img variant="top" src="guide4.jpg" />
               <Card.Text>choose payment method Card/Apple Pay</Card.Text>
             </Card.Body>
           </Card>
-          <Card className="text-dark">
+          <Card classNameName="text-dark">
             <Card.Body>
               <Card.Img variant="top" src="guide5.jpg" />
               <Card.Text>
@@ -89,11 +89,11 @@ function App() {
             </Card.Body>
           </Card>
         </CardGroup>
-        <div className="button">
+        <div classNameName="button">
           <ButtonCreateNFT />
         </div>
       </Container>
-      <Container fluid="true" className="footer">
+      <Container fluid="true" classNameName="footer">
         <p>© 2022 by GetExperience © Все права защищены</p>
       </Container>
     </Container>
