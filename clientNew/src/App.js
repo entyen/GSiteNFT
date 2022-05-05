@@ -28,8 +28,7 @@ function App() {
             <strong>Video Guide</strong>
           </p>
           <h1>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor.
+            Watch the ultimate video guide to Trust wallet.
           </h1>
         </div>
         <video controls poster="./img/placeholder.png">
@@ -191,8 +190,7 @@ function App() {
             <strong>Plans</strong>
           </p>
           <h1>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor.
+            Choose the plan that's right for you.
           </h1>
         </div>
         <div className="ffp">
@@ -287,8 +285,7 @@ function App() {
             <strong>Partners</strong>
           </p>
           <h1>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor.
+            Get the best discounts and personal offers from our partners using GetExperience NFT Plus Loyalty Program.
           </h1>
         </div>
         <div className="partners">
