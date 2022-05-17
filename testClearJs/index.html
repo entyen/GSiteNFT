@@ -25,12 +25,12 @@
       let gnft;
 
       async function checkNFT(ethereum) {
-        let gnft_address = "0x28F65f5c80F56611aA4DaF2D44089128AF83C407"; //Адрес контракта
+        let gnft_address = "0x92dB4eE34025474fF35E8107249cCa24FD96f5F7"; //Адрес контракта
         gnft = new web3js.eth.Contract(gnft_abi, gnft_address); // Инициализация контаркта и API для обращений к нему
         const accounts = await web3js.eth.getAccounts(); // Запрос Аккаунта
         const chainId = await web3js.eth.getChainId(); // Запрос Сети
 
-        if (chainId === 80001) {
+        if (chainId === 137) {
           // Проверка ИД Сети сеть с контрактом
           async function fetchWithTimeout(resource, options = {}) {
             const { timeout = 8000 } = options;
