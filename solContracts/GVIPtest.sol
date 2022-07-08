@@ -1232,6 +1232,7 @@ contract GNFTvip is ERC721Enumerable, Ownable {
   bool public paused = true;
   bool public revealed = false;
   string public notRevealedUri;
+  mapping(address => bool) private _whitelist;
   mapping(address => uint256) private _minted;
 
   constructor(
@@ -1306,6 +1307,14 @@ contract GNFTvip is ERC721Enumerable, Ownable {
 
   function mintedCheck(address _owner) public view returns(uint256) {
     return _minted[_owner];
+  }
+
+  function whiteListCheck(address _owner) public view returns(bool) {
+    return _whitelist[_owner];
+  }
+
+  function addToWhiteList(address _adress, bool _state) public onlyOwner {
+    _whitelist[_adress] = _state;
   }
 
   //only owner
